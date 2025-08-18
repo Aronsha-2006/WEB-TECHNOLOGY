@@ -1,0 +1,149 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+nav {
+    background-color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+}
+
+nav a {
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    flex: 1;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+nav a.active {
+    background-color: #4CAF50;
+    font-weight: bold;
+}
+
+main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.location {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.location-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.location-info {
+    padding: 20px;
+}
+
+.location-info h3 {
+    color: #4CAF50;
+    margin-top: 0;
+}
+
+.location-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.hours, .contact {
+    flex: 1;
+    min-width: 200px;
+}
+
+.hours table {
+    width: 100%;
+}
+
+.hours td {
+    padding: 5px 0;
+}
+
+.hours td:last-child {
+    text-align: right;
+}
+
+.contact p {
+    margin: 5px 0;
+}
+
+.map-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.map-link:hover {
+    background-color: #45a049;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 50px;
+}
+
+@media (min-width: 768px) {
+    .location {
+        flex-direction: row;
+    }
+    
+    .location-image {
+        width: 40%;
+        height: auto;
+    }
+    
+    .location-info {
+        width: 60%;
+    }
+}
