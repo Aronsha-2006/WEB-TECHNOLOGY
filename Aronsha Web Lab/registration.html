@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermarket Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1607083206968-13611e3d76db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 1000px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: 
+                linear-gradient(rgba(46, 204, 113, 0.8), rgba(52, 152, 219, 0.8)),
+                url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 35px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-body {
+            padding: 35px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .form-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-showcase {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .product-item {
+            display: flex;
+            align-items: center;
+            background: rgba(46, 204, 113, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .product-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .product-info p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+        
+        .form-group {
+            flex: 1 1 300px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        input:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background-color: #fff;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #95a5a6;
+            transition: color 0.3s;
+        }
+        
+        .password-toggle:hover {
+            color: #3498db;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .file-upload {
+            position: relative;
+            margin-top: 10px;
+        }
+        
+        .file-upload-input {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            background-color: rgba(244, 249, 255, 0.9);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-label:hover {
+            background-color: #e8f4fc;
+            border-color: #2ecc71;
+        }
+        
+        .file-upload-label i {
+            font-size: 42px;
+            color: #3498db;
+            margin-bottom: 12px;
+        }
+        
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .preview-container img {
+            max-width: 180px;
+            max-height: 180px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .remove-image {
+            display: inline-block;
+            margin-top: 12px;
+            color: #e74c3c;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .remove-image:hover {
+            background-color: #ffeeee;
+        }
+        
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+        
+        .benefit-item {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(46, 204, 113, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .benefit-item i {
+            font-size: 24px;
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+        
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .terms input {
+            margin-top: 5px;
+            margin-right: 12px;
+            width: auto;
+        }
+        
+        .terms label {
+            font-weight: normal;
+            line-height: 1.6;
+        }
+        
+        .terms a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(to right, #2ecc71, #3498db);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .success-message {
+            background-color: #2ecc71;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 25px;
+            display: none;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        @media (max-width: 768px) {
+            .form-body {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .header {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .form-content {
+                padding: 0;
+            }
+            
+            .benefits {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>Supermarket Rewards Program</h1>
+                <p>Register today to enjoy exclusive discounts, member-only offers, and earn points on every purchase!</p>
+            </div>
+        </div>
+        
+        <div class="form-body">
+            <div class="form-content">
+                <form id="registrationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                            <div class="error" id="nameError">Please enter your full name</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="error" id="emailError">Please enter a valid email address</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="e.g. 123-456-7890" required>
+                            <div class="error" id="phoneError">Please enter a valid phone number</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dob">Date of Birth *</label>
+                            <input type="date" id="dob" name="dob" required>
+                            <div class="error" id="dobError">Please enter your date of birth</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <div class="input-group">
+                                <input type="password" id="password" name="password" required>
+                                <span class="password-toggle" id="passwordToggle">
+                                    <i class="far fa-eye"></i>
+                                </span>
+                            </div>
+                            <div class="error" id="passwordError">Password must be at least 8 characters with letters and numbers</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <div class="input-group">
+                                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                <span class="password-toggle" id="confirmPasswordToggle">
+                                    <i class="far fa-eye"></i>
+                                </span>
+                            </div>
+                            <div class="error" id="confirmPasswordError">Passwords do not match</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Address *</label>
+                            <input type="text" id="address" name="address" placeholder="Street address" required>
+                            <div class="error" id="addressError">Please enter your address</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="city">City *</label>
+                            <input type="text" id="city" name="city" required>
+                            <div class="error" id="cityError">Please enter your city</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="membership">Membership Type *</label>
+                            <select id="membership" name="membership" required>
+                                <option value="">Select Membership</option>
+                                <option value="basic">Basic (Free)</option>
+                                <option value="premium">Premium ($49/year)</option>
+                                <option value="family">Family ($79/year)</option>
+                            </select>
+                            <div class="error" id="membershipError">Please select a membership type</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newsletter">Preferred Newsletter</label>
+                            <select id="newsletter" name="newsletter">
+                                <option value="weekly">Weekly Offers</option>
+                                <option value="monthly">Monthly Digest</option>
+                                <option value="none">No Newsletter</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Upload Profile Picture (JPG or PNG)</label>
+                            <div class="file-upload">
+                                <input type="file" id="profileImage" class="file-upload-input" accept=".jpg,.jpeg,.png">
+                                <label for="profileImage" class="file-upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Click to upload or drag and drop</span>
+                                    <span>JPG, PNG (Max. 2MB)</span>
+                                </label>
+                            </div>
+                            <div class="error" id="imageError">Please upload a valid image file (JPG or PNG, max 2MB)</div>
+                            
+                            <div class="preview-container" id="previewContainer">
+                                <img id="imagePreview" src="#" alt="Image Preview">
+                                <span class="remove-image" id="removeImage">Remove Image</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="benefits">
+                        <div class="benefit-item">
+                            <i class="fas fa-tag"></i>
+                            <h3>Exclusive Discounts</h3>
+                            <p>Member-only prices on hundreds of items</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-gift"></i>
+                            <h3>Birthday Rewards</h3>
+                            <p>Special gifts and offers on your birthday</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-bolt"></i>
+                            <h3>Express Checkout</h3>
+                            <p>Dedicated lanes for rewards members</p>
+                        </div>
+                    </div>
+                    
+                    <div class="terms">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>. I consent to receive promotional offers from the supermarket.</label>
+                    </div>
+                    <div class="error" id="termsError">You must agree to the terms and conditions</div>
+                    
+                    <button type="submit" class="submit-btn">Create Account</button>
+                    
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle"></i> Registration successful! Welcome to our rewards program.
+                    </div>
+                </form>
+            </div>
+            
+            <div class="product-showcase">
+                <h2 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">Weekly Specials</h2>
+                
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fresh Vegetables">
+                    </div>
+                    <div class="product-info">
+                        <h3>Fresh Vegetables</h3>
+                        <p>20% off on organic vegetables this week</p>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1568649929103-28ffbefaca1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dairy Products">
+                    </div>
+                    <div class="product-info">
+                        <h3>Dairy Products</h3>
+                        <p>Buy 1 get 1 free on selected dairy items</p>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1559715745-e1b33a271c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bakery Items">
+                    </div>
+                    <div class="product-info">
+                        <h3>Bakery Items</h3>
+                        <p>Freshly baked bread and pastries at 15% off</p>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1574856344991-aaa31b6f4ce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Beverages">
+                    </div>
+                    <div class="product-info">
+                        <h3>Beverages</h3>
+                        <p>Special discounts on juices and soft drinks</p>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1588964895597-cfccd6e2dbf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Meat & Poultry">
+                    </div>
+                    <div class="product-info">
+                        <h3>Meat & Poultry</h3>
+                        <p>Premium quality meat at discounted prices</p>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1623241895250-7b1e5e13eef5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Snacks">
+                    </div>
+                    <div class="product-info">
+                        <h3>Snacks</h3>
+                        <p>Buy 2 get 1 free on all snack items</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password toggle functionality
+            const passwordToggle = document.getElementById('passwordToggle');
+            const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            
+            passwordToggle.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    passwordToggle.innerHTML = '<i class="far fa-eye-slash"></i>';
+                } else {
+                    passwordInput.type = 'password';
+                    passwordToggle.innerHTML = '<i class="far fa-eye"></i>';
+                }
+            });
+            
+            confirmPasswordToggle.addEventListener('click', function() {
+                if (confirmPasswordInput.type === 'password') {
+                    confirmPasswordInput.type = 'text';
+                    confirmPasswordToggle.innerHTML = '<i class="far fa-eye-slash"></i>';
+                } else {
+                    confirmPasswordInput.type = 'password';
+                    confirmPasswordToggle.innerHTML = '<i class="far fa-eye"></i>';
+                }
+            });
+            
+            // Image upload preview
+            const profileImage = document.getElementById('profileImage');
+            const imagePreview = document.getElementById('imagePreview');
+            const previewContainer = document.getElementById('previewContainer');
+            const removeImage = document.getElementById('removeImage');
+            
+            profileImage.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    // Check file type and size
+                    const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                    const maxSize = 2 * 1024 * 1024; // 2MB
+                    
+                    if (!validTypes.includes(file.type)) {
+                        showError('imageError', 'Please upload a JPG or PNG image');
+                        return;
+                    }
+                    
+                    if (file.size > maxSize) {
+                        showError('imageError', 'Image must be less than 2MB');
+                        return;
+                    }
+                    
+                    hideError('imageError');
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            removeImage.addEventListener('click', function() {
+                profileImage.value = '';
+                previewContainer.style.display = 'none';
+            });
+            
+            // Form validation
+            const form = document.getElementById('registrationForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                
+                // Validate name
+                if (!document.getElementById('fullName').value.trim()) {
+                    showError('nameError', 'Please enter your full name');
+                    isValid = false;
+                } else {
+                    hideError('nameError');
+                }
+                
+                // Validate email
+                const email = document.getElementById('email').value;
+                if (!validateEmail(email)) {
+                    showError('emailError', 'Please enter a valid email address');
+                    isValid = false;
+                } else {
+                    hideError('emailError');
+                }
+                
+                // Validate phone
+                const phone = document.getElementById('phone').value;
+                if (!validatePhone(phone)) {
+                    showError('phoneError', 'Please enter a valid phone number');
+                    isValid = false;
+                } else {
+                    hideError('phoneError');
+                }
+                
+                // Validate password
+                const password = document.getElementById('password').value;
+                if (!validatePassword(password)) {
+                    showError('passwordError', 'Password must be at least 8 characters with letters and numbers');
+                    isValid = false;
+                } else {
+                    hideError('passwordError');
+                }
+                
+                // Validate confirm password
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                if (password !== confirmPassword) {
+                    showError('confirmPasswordError', 'Passwords do not match');
+                    isValid = false;
+                } else {
+                    hideError('confirmPasswordError');
+                }
+                
+                // Validate city
+                if (!document.getElementById('city').value.trim()) {
+                    showError('cityError', 'Please enter your city');
+                    isValid = false;
+                } else {
+                    hideError('cityError');
+                }
+                
+                // Validate membership
+                if (!document.getElementById('membership').value) {
+                    showError('membershipError', 'Please select a membership type');
+                    isValid = false;
+                } else {
+                    hideError('membershipError');
+                }
+                
+                // Validate terms
+                if (!document.getElementById('terms').checked) {
+                    showError('termsError', 'You must agree to the terms and conditions');
+                    isValid = false;
+                } else {
+                    hideError('termsError');
+                }
+                
+                // If form is valid, show success message
+                if (isValid) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    setTimeout(() => {
+                        form.reset();
+                        previewContainer.style.display = 'none';
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 3000);
+                }
+            });
+            
+            // Validation functions
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            function validatePhone(phone) {
+                const re = /^[\+]?[1-9][\d]{0,15}$/;
+                return re.test(phone.replace(/[\s\-\(\)]/g, ''));
+            }
+            
+            function validatePassword(password) {
+                // At least 8 characters, with letters and numbers
+                const re = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+                return re.test(password);
+            }
+            
+            function showError(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+            
+            function hideError(elementId) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
